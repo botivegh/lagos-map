@@ -13,41 +13,42 @@
         <v-switch
           class="mt-0"
           style="position: absolute; top: 5px; right: 5px; z-index: 1"
-          v-model="switch1"
+          v-model="gridSwitch"
           flat
         ></v-switch>
         <v-img
-          src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-          height="100px"
+          :src="require('../../assets/img/grid.png')"
+          height="70px"
         ></v-img>
         <v-slider
-          v-model="opacity"
+          v-model="gridOpacity"
           thumb-label
+          step="10"
           :thumb-size="24"
           hide-details
-          :disabled="!switch1"
+          :disabled="!gridSwitch"
           dense
           class="ma-0 pa-0"
         ></v-slider>
         <div class="d-flex justify-space-between pa-1">
           <div
             style="cursor: pointer"
-            :class="gridSelection == 0 ? 'active' : ''"
-            @click="gridTypeSelected(0)"
+            :class="gridChoroplethAttribute == 0 ? 'active' : ''"
+            @click="setGridChoroplethAttribute(0)"
           >
             Population
           </div>
           <div
             style="cursor: pointer"
-            :class="gridSelection == 1 ? 'active' : ''"
-            @click="gridTypeSelected(1)"
+            :class="gridChoroplethAttribute == 1 ? 'active' : ''"
+            @click="setGridChoroplethAttribute(1)"
           >
             Competition
           </div>
           <div
             style="cursor: pointer"
-            :class="gridSelection == 2 ? 'active' : ''"
-            @click="gridTypeSelected(2)"
+            :class="gridChoroplethAttribute == 2 ? 'active' : ''"
+            @click="setGridChoroplethAttribute(2)"
           >
             Wealth Level
           </div>
@@ -72,7 +73,7 @@
         <v-switch
           class="ma-0 pa-0"
           hide-details
-          v-model="switch2"
+          v-model="storeSwitch"
           flat
         ></v-switch>
       </v-card>
@@ -81,19 +82,39 @@
 </template>
 
 <script>
-
-
+import { mapMutations, mapState } from "vuex";
 export default {
   data: () => ({
-    switch1: true,
-    switch2: true,
-
-    opacity: 70,
     gridSelection: 1,
   }),
   methods: {
-    gridTypeSelected(id) {
-      this.gridSelection = id;
+    ...mapMutations(["setGridChoroplethAttribute"]),
+  },
+  computed: {
+    ...mapState(["gridChoroplethAttribute"]),
+    gridSwitch: {
+      get() {
+        return this.$store.state.gridSwitch;
+      },
+      set(newValue) {
+        this.$store.commit("setGridSwitch", newValue);
+      },
+    },
+    storeSwitch: {
+      get() {
+        return this.$store.state.storeSwitch;
+      },
+      set(newValue) {
+        this.$store.commit("setStoreSwitch", newValue);
+      },
+    },
+    gridOpacity: {
+      get() {
+        return this.$store.state.gridOpacity;
+      },
+      set(newValue) {
+        this.$store.commit("setGridOpacity", newValue);
+      },
     },
   },
 };

@@ -11,6 +11,11 @@ export default new Vuex.Store({
     clickedGrid: null,
     clickedStore: null,
     sideMenuOpen: null,
+    gridSwitch: true,
+    storeSwitch: true,
+    gridOpacity: 70,
+    gridChoroplethOptions: ['nga_general_2020', 'total_attr', 'light_mean'],
+    gridChoroplethAttribute: 2,
   },
   // MUTATIONS
   mutations: {
@@ -41,6 +46,18 @@ export default new Vuex.Store({
       } else {
         state.sideMenuOpen = null;
       }
+    },
+    setGridSwitch: (state) => {
+      state.gridSwitch = !state.gridSwitch;
+    },
+    setStoreSwitch: (state) => {
+      state.storeSwitch = !state.storeSwitch;
+    },
+    setGridOpacity: (state, newValue) => {
+      state.gridOpacity = newValue;
+    },
+    setGridChoroplethAttribute: (state, newValue) => {
+      state.gridChoroplethAttribute =  newValue;
     },
   },
   //ACTIONS

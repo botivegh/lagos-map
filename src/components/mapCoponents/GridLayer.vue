@@ -3,7 +3,6 @@
     :geojson="lagosGrid"
     :options="options"
     :options-style="styleFunction"
-  
     ref="jsonLayer"
   />
 </template>
@@ -25,6 +24,7 @@ export default {
     center: [6.5138, 3.3312],
     fillColor: "#e82e3f",
     activeFillColor: "#ffffff",
+    lastClickedLayer: null,
 
     url: "https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png",
     marker: latLng(6.5138, 3.3312),
@@ -60,7 +60,13 @@ export default {
   },
 
   computed: {
-    ...mapState(["lagosGrid", "clickedGrid"]),
+    ...mapState([
+      "lagosGrid",
+      "clickedGrid",
+      "gridOpacity",
+      "gridChoroplethAttribute",
+      "gridChoroplethOptions",
+    ]),
 
     options() {
       return {
@@ -68,17 +74,22 @@ export default {
       };
     },
     styleFunction() {
-      const self = this; // important! need touch fillColor in computed for re-calculate when change fillColor
-      //const fillColor = this.fillColor; // important! need touch fillColor in computed for re-calculate when change fillColor
+      const self = this;
+      // important! need touch fillColor in computed for re-calculate when change fillColor
+      //const fillColor = this.fillColor;
+      const gridOpacity = this.gridOpacity / 100;
+      const choroplethAttr =
+        this.gridChoroplethOptions[this.gridChoroplethAttribute];
+
       return (feature) => {
         return {
           //border
           weight: 0.3,
           color: "#ECEFF1",
-          opacity: 0.6,
+          opacity: 0.8,
           // Colouring
-          fillColor: self.getColor(feature.properties.light_mean),
-          fillOpacity: 0.7,
+          fillColor: self.getColor(feature.properties[choroplethAttr]),
+          fillOpacity: gridOpacity,
         };
       };
     },
@@ -99,8 +110,8 @@ export default {
         //// Mouse Over - Leave: https://jsfiddle.net/3fcxzm9u/15/
         layer.on("mouseover", () => {
           layer.setStyle({
-            color: "#cc0000",
-            weight: 2,
+            color: "#ffffff",
+            weight: 3,
           });
         });
         layer.on("mouseout", () => {
@@ -113,11 +124,24 @@ export default {
         // Bind Click Event
         layer.on("click", function (e) {
           // Set selected grid
+
           self.$store.commit("setGrid", e.target.feature);
-          console.log("clicked saved");
+
           layer.setStyle({
             fillColor: self.activeFillColor,
+            fillOpacity: 0.9,
           });
+          // Process to make sure only one grid can be selected at the same time! 
+          try {
+            if (
+              layer != self.lastClickedLayer &&
+              self.lastClickedLayer != null
+            ) {
+              self.$refs.jsonLayer.mapObject.resetStyle(self.lastClickedLayer);
+            }
+          } finally {
+            self.lastClickedLayer = layer;
+          }
         });
       };
     },

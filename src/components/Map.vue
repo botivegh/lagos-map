@@ -13,8 +13,8 @@
       >
         <l-tile-layer :url="url" />
 
-        <GridLayer></GridLayer>
-        <Stores v-if="true"></Stores>
+        <GridLayer v-if="gridSwitch"></GridLayer>
+        <Stores v-if="storeSwitch"></Stores>
 
         <l-control-zoom position="topright"></l-control-zoom>
         <l-control-scale
@@ -30,6 +30,7 @@
 import { LMap, LTileLayer, LControlZoom, LControlScale } from "vue2-leaflet";
 import GridLayer from "./mapCoponents/GridLayer";
 import Stores from "./mapCoponents/Stores";
+import {mapState} from "vuex";
 
 export default {
   name: "Map",
@@ -58,6 +59,10 @@ export default {
 
       console.log("ready");
     },
+  },
+  computed: {
+    ...mapState(['gridSwitch', 'storeSwitch'])
+
   },
 
 
