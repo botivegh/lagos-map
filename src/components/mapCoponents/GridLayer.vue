@@ -1,51 +1,28 @@
 <template>
-  <div id="map" class="ma-0 pa-0" style="height: 100%; width: 100%">
-    <v-card width="200" height="300" style="position: absolute; z-index: 1000">
-      {{ clickedGrid.properties }}</v-card
-    >
-
-    <l-map :zoom="zoom" :center="center" style="height: 100%; width: 100%">
-      <l-tile-layer :url="url" />
-      <l-geo-json
-        v-if="show"
-        :geojson="geojson"
-        :options="options"
-        :options-style="styleFunction"
-      />
-      <l-marker :lat-lng="marker" @click="test()">
-        <l-icon
-          :icon-size="[2, 2]"
-          :icon-anchor="[10, 10]"
-          icon-url="static/images/baseball-marker.png"
-        >
-        </l-icon>
-      </l-marker>
-    </l-map>
-  </div>
+  <l-geo-json
+    :geojson="lagosGrid"
+    :options="options"
+    :options-style="styleFunction"
+  
+    ref="jsonLayer"
+  />
 </template>
 
 <script>
 import { latLng } from "leaflet";
-import { LMap, LTileLayer, LMarker, LGeoJson, LIcon } from "vue2-leaflet";
+import { LGeoJson } from "vue2-leaflet";
 
 import { mapMutations, mapState } from "vuex";
 
 export default {
-  name: "HomeMap2",
+  name: "GridLayer",
   components: {
-    LMap,
-    LTileLayer,
     LGeoJson,
-    LMarker,
-    LIcon,
   },
   data: () => ({
-    loading: false,
-    show: true,
     enableTooltip: true,
     zoom: 9,
     center: [6.5138, 3.3312],
-    geojson: null,
     fillColor: "#e82e3f",
     activeFillColor: "#ffffff",
 
@@ -59,6 +36,10 @@ export default {
     test() {
       this.fillColor = "#ffffff";
     },
+    ready() {
+      this.$refs.json.mapObject.bringToBack();
+    },
+
     getColor(d) {
       return d > 1000
         ? "#800026"
@@ -77,8 +58,9 @@ export default {
         : "#FFEDA0";
     },
   },
+
   computed: {
-    ...mapState(["clickedGrid"]),
+    ...mapState(["lagosGrid", "clickedGrid"]),
 
     options() {
       return {
@@ -106,14 +88,14 @@ export default {
         var self = this;
 
         /// Bind Tooltop
-        layer.bindTooltip(
-          "<div>Light:" +
-            feature.properties.light_mean +
-            "</div><div>Grid ID: " +
-            feature.properties.grid_id +
-            "</div>",
-          { permanent: false, sticky: true }
-        );
+        // layer.bindTooltip(
+        //   "<div>Light:" +
+        //     feature.properties.light_mean +
+        //     "</div><div>Grid ID: " +
+        //     feature.properties.grid_id +
+        //     "</div>",
+        //   { permanent: false, sticky: true }
+        // );
         //// Mouse Over - Leave: https://jsfiddle.net/3fcxzm9u/15/
         layer.on("mouseover", () => {
           layer.setStyle({
@@ -130,7 +112,7 @@ export default {
 
         // Bind Click Event
         layer.on("click", function (e) {
-          // doesn't work
+          // Set selected grid
           self.$store.commit("setGrid", e.target.feature);
           console.log("clicked saved");
           layer.setStyle({
@@ -140,19 +122,18 @@ export default {
       };
     },
   },
-  /// DATA LOAD
-  async created() {
-    this.loading = true;
-    const response = await fetch("http://localhost:8080/lagos_grid.geojson");
-    const data = await response.json();
-    this.geojson = data;
-    this.loading = false;
-  },
   /// IF LEAFLET FUNCTIONS NEEDED
   mounted() {
     this.$nextTick(() => {
       //this.$refs.myMap.mapObject.ANY_LEAFLET_MAP_METHOD();
     });
   },
+  updated() {
+    this.$nextTick(() => {
+      this.$refs.jsonLayer.mapObject.bringToBack();
+    });
+  },
 };
 </script>
+
+<style></style>
