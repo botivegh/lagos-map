@@ -14,7 +14,7 @@ export default new Vuex.Store({
     gridSwitch: true,
     storeSwitch: true,
     gridOpacity: 70,
-    gridChoroplethOptions: ['nga_general_2020', 'total_attr', 'light_mean'],
+    gridChoroplethOptions: ['nga_general_2020', 'competition_level', 'light_mean'],
     gridChoroplethAttribute: 2,
   },
   // MUTATIONS
