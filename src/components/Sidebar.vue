@@ -62,7 +62,7 @@ export default {
   z-index: 1000;
   left: 70px;
   height: 100%;
-  width: 350px;
+  width: 375px;
   background-color: #f5f5f5;
 }
 #close-btn {

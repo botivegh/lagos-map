@@ -14,7 +14,6 @@
           class="mt-0"
           style="position: absolute; top: 5px; right: 5px; z-index: 1"
           v-model="gridSwitch"
-          flat
         ></v-switch>
         <v-img
           :src="require('../../assets/img/grid.png')"
@@ -74,7 +73,6 @@
           class="ma-0 pa-0"
           hide-details
           v-model="storeSwitch"
-          flat
         ></v-switch>
       </v-card>
     </div>
