@@ -4,7 +4,13 @@
       {{ clickedGrid.properties.ward_name }}, Lagos
     </div>
     <!-- {{ clickedGrid.properties }} -->
-    <div class="text-center mt-3 text-subtitle-2">Sociodemographics</div>
+    <div class="text-center my-2 text-subtitle-2">Urbanisation Level</div>
+
+    <v-progress-linear dark color="deep-orange" :value="urbanLevel" height="25">
+      <strong>{{ urbanLevel }}%</strong>
+    </v-progress-linear>
+
+    <div class="text-center my-2 text-subtitle-2">Sociodemographics</div>
 
     <!--  POPULATION CARD -->
     <v-card>
@@ -86,16 +92,45 @@
         >
 
         <v-col cols="3" class="ma-auto text-center"
-          ><v-icon color="orange" x-large>{{
-            iconMap[clickedGrid.properties.light_mean_cat]
-          }}</v-icon></v-col
+          ><v-icon
+            :color="iconMap[clickedGrid.properties.light_mean_cat][1]"
+            x-large
+            >{{ iconMap[clickedGrid.properties.light_mean_cat][0] }}</v-icon
+          ></v-col
         >
       </v-row>
     </v-card>
-    <div class="text-center mt-3 text-subtitle-2">Grocery Market</div>
+
+    <!--  URBAN CARD-->
+    <!-- <v-card class="mt-4">
+      <v-row no-gutters>
+        <v-col cols="3" class="ma-auto text-center"
+          ><v-icon x-large>mdi-office-building</v-icon></v-col
+        >
+        <v-col
+          cols="6"
+          class="pa-2 d-flex flex-column align-center justify-bottom flex-wrap"
+          ><div class="text-h5 font-weight-medium">
+            {{ urbanLevel }}%
+          </div>
+          <div>Urbanisation Level</div></v-col
+        >
+
+        <v-col cols="3" class="ma-auto text-center"
+          ><v-icon
+            :color="iconMap[clickedGrid.properties.light_mean_cat][1]"
+            x-large
+            >{{ iconMap[clickedGrid.properties.light_mean_cat][0] }}</v-icon
+          ></v-col
+        >
+      </v-row>
+    </v-card> -->
+
+    <!--  GRCOERY SECTION -->
+    <div class="text-center my-2 text-subtitle-2">Grocery Market</div>
 
     <!--  No. Stores -->
-    <v-card class="mt-4">
+    <v-card class="">
       <v-row no-gutters>
         <v-col cols="3" class="ma-auto text-center"
           ><v-icon x-large>mdi-store</v-icon></v-col
@@ -106,14 +141,16 @@
           cols="4"
           class="pa-2 d-flex flex-column align-center justify-bottom flex-wrap"
           ><div class="text-h5 font-weight-medium">
-            {{ clickedGrid.properties.store_id.split(", ").length }}
+            {{ clickedGrid.properties.no_stores }}
           </div>
           <div>No. Stores</div></v-col
         >
         <v-col
           cols="4"
           class="pa-2 d-flex flex-column align-center justify-bottom flex-wrap"
-          ><div class="text-h5 font-weight-medium">NTC</div>
+          ><div class="text-h5 font-weight-medium">
+            {{ clickedGrid.properties.no_chains }}
+          </div>
           <div>No. Chains</div></v-col
         >
       </v-row>
@@ -129,14 +166,26 @@
         <v-col
           cols="4"
           class="pa-2 d-flex flex-column align-center justify-bottom flex-wrap"
-          ><div class="text-h5 font-weight-medium">NTC</div>
-          <div>Total Size</div></v-col
+          ><div class="text-h5 font-weight-medium">
+            {{
+              new Intl.NumberFormat({ maximumSignificantDigits: 0 }).format(
+                clickedGrid.properties.Floorspace_sum
+              )
+            }}
+          </div>
+          <div>Total Size <span class="text-caption">(m²)</span></div></v-col
         >
         <v-col
           cols="4"
           class="pa-2 d-flex flex-column align-center justify-bottom flex-wrap"
-          ><div class="text-h5 font-weight-medium">NTC</div>
-          <div>Avg. Size</div></v-col
+          ><div class="text-h5 font-weight-medium">
+            {{
+              new Intl.NumberFormat({ maximumSignificantDigits: 0 }).format(
+                Math.round(clickedGrid.properties.Floorspace_mean)
+              )
+            }}
+          </div>
+          <div>Avg. Size <span class="text-caption">(m²)</span></div></v-col
         >
       </v-row>
     </v-card>
@@ -156,9 +205,13 @@
           <div>Competition</div></v-col
         >
         <v-col cols="3" class="ma-auto text-center"
-          ><v-icon color="orange" x-large>{{
-            iconMap[clickedGrid.properties.competition_level_cat]
-          }}</v-icon></v-col
+          ><v-icon
+            :color="iconMap[clickedGrid.properties.competition_level_cat][1]"
+            x-large
+            >{{
+              iconMap[clickedGrid.properties.competition_level_cat][0]
+            }}</v-icon
+          ></v-col
         >
       </v-row>
     </v-card>
@@ -170,17 +223,20 @@ import { mapState } from "vuex";
 export default {
   data: () => ({
     iconMap: {
-      nan: "mdi-network-strength-off-outline",
-      "Very Low": "mdi-network-strength-outline",
-      Low: "mdi-network-strength-1",
-      Medium: "mdi-network-strength-2",
-      High: "mdi-network-strength-3",
-      "Very High": "mdi-network-strength-4",
+      nan: ["mdi-network-strength-off-outline", "grey"],
+      "Very Low": ["mdi-network-strength-outline", "#B33030"],
+      Low: ["mdi-network-strength-1", "#F27049"],
+      Medium: ["mdi-network-strength-2", "#FFD061"],
+      High: ["mdi-network-strength-3", "#B1C97F"],
+      "Very High": ["mdi-network-strength-4", "#4C8F62"],
     },
   }),
 
   computed: {
     ...mapState(["clickedGrid", "clickedStore"]),
+    urbanLevel() {
+      return Math.ceil(this.clickedGrid.properties.urban_level * 100);
+    },
   },
 };
 </script>

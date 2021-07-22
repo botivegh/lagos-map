@@ -6,7 +6,7 @@
       :key="s.properties['Store ID']"
       :lat-lng="[s.properties.Latitude, s.properties.Longitude]"
       :radius="70"
-      color="white"
+      color="#673AB7"
       @click="setStore(s.properties)"
     >
       <l-tooltip class="pa-0">

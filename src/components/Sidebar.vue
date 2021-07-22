@@ -1,6 +1,6 @@
 <template>
-  <div id="sidebar">
-    <v-container class="pa-0" style="position: relative">
+  <div id="sidebar" class="elevation-2">
+    <v-container class="pa-0" style="position: relative; height: 100%;" >
       <v-btn
         elevation="0"
         tile
@@ -14,15 +14,16 @@
       >
         <v-icon>mdi-chevron-left</v-icon></v-btn
       >
-      <v-card color="purple" class="d-flex text-h5" height="70" tile>
+      <v-card color="blue-grey darken-3" class="d-flex text-h5" height="70" tile>
         <div class="ma-auto white--text">Lagos</div>
       </v-card>
       <div class="text-h6 my-2 px-3">
         <v-icon>{{ icons[sideMenuOpen] }}</v-icon> {{ sideMenuOpen }}
       </div>
 
-      <layersSection v-if="sideMenuOpen == 'Layers'" />
+      <LayersSection v-if="sideMenuOpen == 'Layers'" />
       <SelectionSection v-if="sideMenuOpen == 'Selection'" />
+      <OverviewSection v-if="sideMenuOpen == 'Overview'" />
 
     </v-container>
   </div>
@@ -30,18 +31,21 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
-import layersSection from "./sidebarComponents/LayersSection.vue";
+import LayersSection from "./sidebarComponents/LayersSection.vue";
 import SelectionSection from "./sidebarComponents/SelectionSection.vue";
+import OverviewSection from "./sidebarComponents/OverviewSection.vue";
+
 
 
 export default {
   components: {
-    layersSection,
-    SelectionSection
+    LayersSection,
+    SelectionSection,
+    OverviewSection
   },
   data: () => ({
     icons: {
-      Search: "mdi-magnify",
+      Overview :  "mdi-chart-box-outline",
       Layers: "mdi-layers",
       Tools: "mdi-tools",
       Selection: "mdi-cursor-default-click",
@@ -63,7 +67,7 @@ export default {
   left: 70px;
   height: 100%;
   width: 375px;
-  background-color: #f5f5f5;
+  background-color: #fcfcfc;
 }
 #close-btn {
   position: absolute;

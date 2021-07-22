@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import { latLng } from "leaflet";
 import { LGeoJson } from "vue2-leaflet";
 
 import { mapMutations, mapState } from "vuex";
@@ -21,13 +20,9 @@ export default {
   data: () => ({
     enableTooltip: true,
     zoom: 9,
-    center: [6.5138, 3.3312],
     fillColor: "#e82e3f",
     activeFillColor: "#ffffff",
     lastClickedLayer: null,
-
-    url: "https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png",
-    marker: latLng(6.5138, 3.3312),
   }),
 
   methods: {
@@ -40,22 +35,46 @@ export default {
       this.$refs.json.mapObject.bringToBack();
     },
 
-    getColor(d) {
-      return d > 1000
-        ? "#800026"
-        : d > 500
-        ? "#BD0026"
-        : d > 200
-        ? "#E31A1C"
-        : d > 100
-        ? "#FC4E2A"
-        : d > 50
-        ? "#FD8D3C"
-        : d > 20
-        ? "#FEB24C"
-        : d > 10
-        ? "#FED976"
-        : "#FFEDA0";
+    getColor(attr, d) {
+      if (attr == "nga_general_2020") {
+        return d > 8000
+          ? "#045a8d"
+          : d > 5000
+          ? "#2b8cbe"
+          : d > 1000
+          ? "#74a9cf"
+          : d > 250
+          ? "#a6bddb"
+          : d > 50
+          ? "#d0d1e6"
+          : "#d0d1e6";
+      }
+      if (attr == "light_mean_cat") {
+        return d == "Very Low"
+          ? "#b2e2e2"
+          : d == "Low"
+          ? "#66c2a4"
+          : d == "Medium"
+          ? "#2ca25f"
+          : d == "High"
+          ? "#006d2c"
+          : d == "Very High"
+          ? "#00471d"
+          : "#a6a6a6";
+      }
+      if (attr == "competition_level_cat") {
+        return d == "Very Low"
+          ? "#fcbba1"
+          : d == "Low"
+          ? "#fc9272"
+          : d == "Medium"
+          ? "#fb6a4a"
+          : d == "High"
+          ? "#de2d26"
+          : d == "Very High"
+          ? "#a50f15"
+          : "#a6a6a6";
+      }
     },
   },
 
@@ -85,10 +104,13 @@ export default {
         return {
           //border
           weight: 0.3,
-          color: "#ECEFF1",
+          color: "#607D8B",
           opacity: 0.8,
           // Colouring
-          fillColor: self.getColor(feature.properties[choroplethAttr]),
+          fillColor: self.getColor(
+            choroplethAttr,
+            feature.properties[choroplethAttr]
+          ),
           fillOpacity: gridOpacity,
         };
       };
@@ -131,7 +153,7 @@ export default {
             fillColor: self.activeFillColor,
             fillOpacity: 0.9,
           });
-          // Process to make sure only one grid can be selected at the same time! 
+          // Process to make sure only one grid can be selected at the same time!
           try {
             if (
               layer != self.lastClickedLayer &&

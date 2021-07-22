@@ -1,7 +1,7 @@
 <template>
-  <div class="pa-3">
+  <div class="pa-2" style="overflow-y: auto; height: calc(100% - 115px)">
     <div>
-      <v-chip id="type-chip" v-if="idType != null" outlined color="red" label>
+      <v-chip id="type-chip" v-if="idType != null" dark color="deep-orange" label>
         {{ idType
         }}<v-icon medium right>{{
           idType == "store" ? "mdi-map-marker" : "mdi-grid-large"

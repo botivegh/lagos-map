@@ -8,13 +8,21 @@ export default new Vuex.Store({
   state: {
     lagosGrid: [],
     stores: [],
+    overview : [],
+    catchments: [],
+    storeCatchment: [],
     clickedGrid: null,
     clickedStore: null,
     sideMenuOpen: null,
     gridSwitch: true,
     storeSwitch: true,
+    catchmentSwitch: false,
     gridOpacity: 70,
-    gridChoroplethOptions: ['nga_general_2020', 'competition_level', 'light_mean'],
+    gridChoroplethOptions: [
+      "nga_general_2020",
+      "competition_level_cat",
+      "light_mean_cat",
+    ],
     gridChoroplethAttribute: 2,
   },
   // MUTATIONS
@@ -25,24 +33,36 @@ export default new Vuex.Store({
     setStoreData(state, data) {
       state.stores = data;
     },
+    setCatchmentData(state, data) {
+      state.catchments = data;
+    },
+    setOverviewData(state, data) {
+      state.overview = data[0];
+    },
     // Set Seleted Grid
     setGrid(state, data) {
       state.clickedGrid = data;
       state.sideMenuOpen = "Selection";
       state.clickedStore = null;
+      state.storeCatchment = [];
     },
     /// Set Selected Store
     setStore(state, data) {
       state.clickedStore = data;
       state.sideMenuOpen = "Selection";
       state.clickedGrid = null;
+
+      // filter catchment polygons
+      state.storeCatchment = state.catchments.features.filter(
+        (p) => p.properties["Store ID"] == data["Store ID"]
+      );
     },
     setSideMenuOpen: (state, newValue) => {
       state.sideMenuOpen = newValue;
     },
     sidebarToggle: (state) => {
       if (state.sideMenuOpen == null) {
-        state.sideMenuOpen = "Search";
+        state.sideMenuOpen = "Overview";
       } else {
         state.sideMenuOpen = null;
       }
@@ -56,8 +76,11 @@ export default new Vuex.Store({
     setGridOpacity: (state, newValue) => {
       state.gridOpacity = newValue;
     },
+    setCatchmentSwitch: (state) => {
+      state.catchmentSwitch = !state.catchmentSwitch;
+    },
     setGridChoroplethAttribute: (state, newValue) => {
-      state.gridChoroplethAttribute =  newValue;
+      state.gridChoroplethAttribute = newValue;
     },
   },
   //ACTIONS
@@ -74,6 +97,20 @@ export default new Vuex.Store({
         .get("http://localhost:8080/lagos_stores.geojson")
         .then((result) => {
           commit("setStoreData", result.data);
+        })
+        .catch((error) => console.log(error));
+
+      axios
+        .get("http://localhost:8080/store_catchment.geojson")
+        .then((result) => {
+          commit("setCatchmentData", result.data);
+        })
+        .catch((error) => console.log(error));
+
+      axios
+        .get("http://localhost:8080/lagos_overview.json")
+        .then((result) => {
+          commit("setOverviewData", result.data);
         })
         .catch((error) => console.log(error));
     },

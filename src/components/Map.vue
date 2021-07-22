@@ -1,36 +1,34 @@
 <template>
-    <div
-      id="map"
-      class="ma-0"
-      style="height: 100%; width: 100%;"
+  <div id="map" class="ma-0" style="height: 100%; width: 100%">
+    <l-map
+      ref="myMap"
+      :zoom="zoom"
+      :center="center"
+      :options="{ zoomControl: false }"
+      style="height: 100%; width: 100%"
     >
-      <l-map
-        ref="myMap"
-        :zoom="zoom"
-        :center="center"
-        :options="{ zoomControl: false }"
-        style="height: 100%; width: 100%"
-      >
-        <l-tile-layer :url="url" />
+      <l-tile-layer :url="url" />
 
-        <GridLayer v-if="gridSwitch"></GridLayer>
-        <Stores v-if="storeSwitch"></Stores>
-
-        <l-control-zoom position="topright"></l-control-zoom>
-        <l-control-scale
-          position="bottomright"
-          :imperial="false"
-          :metric="true"
-        ></l-control-scale>
-      </l-map>
-    </div>
+      <GridLayer v-if="gridSwitch"></GridLayer>
+      <Stores v-if="storeSwitch"></Stores>
+      <Catchments v-if="catchmentSwitch"></Catchments>
+      <l-control-scale
+        position="topright"
+        :imperial="false"
+        :metric="true"
+      ></l-control-scale>
+      <l-control-zoom position="topright"></l-control-zoom>
+    </l-map>
+  </div>
 </template>
 
 <script>
 import { LMap, LTileLayer, LControlZoom, LControlScale } from "vue2-leaflet";
 import GridLayer from "./mapCoponents/GridLayer";
 import Stores from "./mapCoponents/Stores";
-import {mapState} from "vuex";
+import Catchments from "./mapCoponents/Catchment";
+
+import { mapState } from "vuex";
 
 export default {
   name: "Map",
@@ -41,7 +39,7 @@ export default {
     LControlScale,
     GridLayer,
     Stores,
-  
+    Catchments,
   },
   data: () => ({
     loading: false,
@@ -49,22 +47,19 @@ export default {
     zoom: 9,
     center: [6.5138, 3.3312],
 
-    url: "https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png",
+    url: "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png",
   }),
 
   methods: {
     geoJsonReady(layer) {
       layer.bringToBack();
       this.show = true;
-
       console.log("ready");
     },
   },
   computed: {
-    ...mapState(['gridSwitch', 'storeSwitch'])
-
+    ...mapState(["gridSwitch", "storeSwitch", "catchmentSwitch"]),
   },
-
 
   /// IF LEAFLET FUNCTIONS NEEDED
   mounted() {

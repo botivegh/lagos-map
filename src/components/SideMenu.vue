@@ -4,8 +4,9 @@
       class="d-flex flex-column"
       v-model="sideMenuOpen"
       tile
-      color="deep-purple accent-3"
+      color="deep-orange darken-2"
       group
+      
     >
       <v-btn
         class="flexcol"
@@ -30,7 +31,7 @@ export default {
     return {
       selectedButton: "center",
       buttons: [
-        { name: "Search", icon: "mdi-magnify" },
+        { name: "Overview", icon: "mdi-chart-box-outline" },
         { name: "Layers", icon: "mdi-layers" },
         { name: "Tools", icon: "mdi-tools" },
         { name: "Selection", icon: "mdi-cursor-default-click" },

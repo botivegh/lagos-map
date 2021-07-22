@@ -1,11 +1,10 @@
 <template>
-  <div class="pa-3">
+  <div class="pa-2">
     <!-- GRID LAYERS -->
     <div class="grids mt-5">
       <div class="text-body font-weight-medium">Grid</div>
       <v-card
         elevation="1"
-        tile
         class="mx-auto pa-1"
         max-width="344"
         style="position: relative"
@@ -14,13 +13,18 @@
           class="mt-0"
           style="position: absolute; top: 5px; right: 5px; z-index: 1"
           v-model="gridSwitch"
+          color="#FF5722"
         ></v-switch>
         <v-img
           :src="require('../../assets/img/grid.png')"
-          height="70px"
+          height="50px"
         ></v-img>
+        <v-divider></v-divider>
+        <!-- Opcatiy slider -->
         <v-slider
           v-model="gridOpacity"
+          color="#FF5722"
+          track-color="blue-grey"
           thumb-label
           step="10"
           :thumb-size="24"
@@ -60,17 +64,17 @@
       <v-card
         elevation="1"
         height="50"
-        tile
         class="mx-auto pa-1 d-flex align-center justify-space-between"
         max-width="344"
         style="position: relative"
       >
         <div class="align-center justify-start">
-          <v-icon large>mdi-circle</v-icon>
+          <v-icon color="deep-purple" large>mdi-circle</v-icon>
           Grocery Retail Outlets
         </div>
         <v-switch
           class="ma-0 pa-0"
+          color="#FF5722"
           hide-details
           v-model="storeSwitch"
         ></v-switch>
@@ -83,7 +87,7 @@
 import { mapMutations, mapState } from "vuex";
 export default {
   data: () => ({
-    gridSelection: 1,
+ 
   }),
   methods: {
     ...mapMutations(["setGridChoroplethAttribute"]),
@@ -122,6 +126,6 @@ export default {
 .active {
   text-decoration: underline;
   font-weight: bold;
-  color: rgb(255, 102, 0);
+  color: #FF5722;
 }
 </style>
