@@ -1,8 +1,8 @@
 <template>
   <div class="pa-2">
     <!-- GRID LAYERS -->
-    <div class="grids mt-5">
-      <div class="text-body font-weight-medium">Grid</div>
+    <div class="grids ">
+      <div class="text-center my-2 text-body font-weight-medium">Grid</div>
       <v-card
         elevation="1"
         class="mx-auto pa-1"
@@ -59,8 +59,8 @@
       </v-card>
     </div>
     <!-- POINT LAYERS -->
-    <div class="grids mt-5">
-      <div class="text-body font-weight-medium">Points</div>
+    <div class="grids">
+      <div class="text-center my-2 text-body font-weight-medium">Points</div>
       <v-card
         elevation="1"
         height="50"

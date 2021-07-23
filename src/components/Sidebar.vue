@@ -2,7 +2,7 @@
   <div id="sidebar" class="elevation-2">
     <v-container class="pa-0" style="position: relative; height: 100%;" >
       <v-btn
-        elevation="0"
+        elevation="2"
         tile
         min-width="25"
         class="pa-0"

@@ -37,7 +37,7 @@ export default {
 
     getColor(attr, d) {
       if (attr == "nga_general_2020") {
-        return d > 8000
+        return d > 10000
           ? "#045a8d"
           : d > 5000
           ? "#2b8cbe"
@@ -47,7 +47,7 @@ export default {
           ? "#a6bddb"
           : d > 50
           ? "#d0d1e6"
-          : "#d0d1e6";
+          : "#f1eef6";
       }
       if (attr == "light_mean_cat") {
         return d == "Very Low"

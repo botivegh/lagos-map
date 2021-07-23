@@ -1,11 +1,13 @@
 <template>
   <div>
-    <div class="text-h5 font-weight-medium my-2">
-      <v-avatar class="mr-2" color="primary" size="56"></v-avatar
+    <div class="text-h5 font-weight-medium my-2 d-flex align-center">
+      <v-avatar class="mr-2" color="deep-purple" size="70">
+        <v-icon dark x-large>mdi-store</v-icon></v-avatar
       >{{ clickedStore["Company Name"] }}
     </div>
-    <div class="text-center text-body-2">
-      <v-icon small>mdi-map-marker</v-icon> {{ clickedStore["Address"] }}
+    <v-divider></v-divider>
+    <div class="text-center text-body-2 mt-2">
+      <v-icon   small>mdi-map-marker</v-icon> {{ clickedStore["Address"] }}
     </div>
     <v-card
       elevation="1"
@@ -16,13 +18,14 @@
       style="position: relative"
     >
       <div class="align-center justify-start">
-        <v-icon large>mdi-circle</v-icon>
+        <v-icon class="mx-1" large>mdi-magnet-on</v-icon>
         Store Catchment Area
       </div>
       <v-switch
         v-model="catchmentSwitch"
         class="ma-0 pa-0"
         hide-details
+        color="deep-purple"
       ></v-switch>
     </v-card>
 
@@ -40,7 +43,11 @@
     </div>
     <div class="text-center my-5">
       <div class="text-h5 font-weight-medium">
-        {{     new Intl.NumberFormat({ maximumSignificantDigits: 0 }).format(clickedStore["Floorspace"]) }}m²
+        {{
+          new Intl.NumberFormat({ maximumSignificantDigits: 0 }).format(
+            clickedStore["Floorspace"]
+          )
+        }}m²
       </div>
       <div>Floorspace</div>
     </div>

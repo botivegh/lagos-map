@@ -16,7 +16,7 @@
           height="50"
           width="150"
         >
-          <v-avatar color="primary" size="50" tile>
+          <v-avatar color="deep-purple" size="50">
             <v-icon dark large>mdi-store</v-icon></v-avatar
           >
           <div class="pl-2">

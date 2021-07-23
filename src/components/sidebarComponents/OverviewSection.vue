@@ -4,13 +4,13 @@
       Lagos Statistics
     </div>
     <!-- {{ clickedGrid.properties }} -->
-    <div class="text-center my-2 text-subtitle-2">Urbanisation Level</div>
+    <div class="text-center my-2 text-body font-weight-medium">Urbanisation Level</div>
 
     <v-progress-linear dark color="deep-orange" :value="overview.uban_level * 100" height="25">
       <strong>{{ Math.round(overview.uban_level * 100) }}%</strong>
     </v-progress-linear>
 
-    <div class="text-center my-2 text-subtitle-2">Sociodemographics</div>
+    <div class="text-center my-2 text-body font-weight-medium">Sociodemographics</div>
 
     <!--  POPULATION CARD -->
     <v-card>
@@ -102,7 +102,7 @@
     </v-card> -->
 
     <!--  GRCOERY SECTION -->
-    <div class="text-center my-2 text-subtitle-2">Grocery Market</div>
+    <div class="text-center my-2 text-body font-weight-medium">Grocery Market</div>
 
     <!--  No. Stores -->
     <v-card class="">

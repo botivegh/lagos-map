@@ -8,7 +8,7 @@
         }}</v-icon></v-chip
       >
     </div>
-    <v-divider></v-divider>
+    
     <div v-if="idType != null">
       <selection-grid v-if="idType == 'grid'"></selection-grid>
       <selection-store v-if="idType == 'store'"></selection-store>
