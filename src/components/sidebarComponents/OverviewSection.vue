@@ -1,16 +1,29 @@
 <template>
-  <div class="pa-2">
+  <div class="pa-2"  style="overflow-y: auto; height: calc(100% - 115px)">
     <div class="text-h5 font-weight-medium text-no-wrap text-center">
       Lagos Statistics
     </div>
     <!-- {{ clickedGrid.properties }} -->
-    <div class="text-center my-2 text-body font-weight-medium">Urbanisation Level</div>
+    <div class="text-center my-2 text-body font-weight-medium">
+      Urbanisation Level
+    </div>
 
-    <v-progress-linear dark color="deep-orange" :value="overview.uban_level * 100" height="25">
+    <v-progress-linear
+      class="my-progress"
+      dark
+      color="deep-orange"
+      :value="overview.uban_level * 100"
+      height="25"
+    >
+      <v-icon small dark>mdi-tree-outline</v-icon>
       <strong>{{ Math.round(overview.uban_level * 100) }}%</strong>
+      <v-icon small dark>mdi-city-variant-outline</v-icon>
+
     </v-progress-linear>
 
-    <div class="text-center my-2 text-body font-weight-medium">Sociodemographics</div>
+    <div class="text-center my-2 text-body font-weight-medium">
+      Sociodemographics
+    </div>
 
     <!--  POPULATION CARD -->
     <v-card>
@@ -102,7 +115,9 @@
     </v-card> -->
 
     <!--  GRCOERY SECTION -->
-    <div class="text-center my-2 text-body font-weight-medium">Grocery Market</div>
+    <div class="text-center my-2 text-body font-weight-medium">
+      Grocery Market
+    </div>
 
     <!--  No. Stores -->
     <v-card class="">
@@ -187,4 +202,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style>
+.my-progress .v-progress-linear__content {
+  justify-content: space-between;
+  padding: 0 4px;
+}
+</style>

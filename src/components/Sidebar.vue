@@ -24,6 +24,8 @@
       <LayersSection v-if="sideMenuOpen == 'Layers'" />
       <SelectionSection v-if="sideMenuOpen == 'Selection'" />
       <OverviewSection v-if="sideMenuOpen == 'Overview'" />
+      <ToolsSection v-if="sideMenuOpen == 'Tools'" />
+
 
     </v-container>
   </div>
@@ -34,6 +36,8 @@ import { mapState, mapMutations } from "vuex";
 import LayersSection from "./sidebarComponents/LayersSection.vue";
 import SelectionSection from "./sidebarComponents/SelectionSection.vue";
 import OverviewSection from "./sidebarComponents/OverviewSection.vue";
+import ToolsSection from "./sidebarComponents/ToolsSection.vue";
+
 
 
 
@@ -41,7 +45,8 @@ export default {
   components: {
     LayersSection,
     SelectionSection,
-    OverviewSection
+    OverviewSection,
+    ToolsSection
   },
   data: () => ({
     icons: {

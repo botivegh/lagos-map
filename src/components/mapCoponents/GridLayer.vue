@@ -34,6 +34,14 @@ export default {
     ready() {
       this.$refs.json.mapObject.bringToBack();
     },
+    getOppHighlight(d, t) {
+      //console.log(this.oppList[d])
+      if (t == "color") {
+        return d == undefined ? "#607D8B" : !d ? "#607D8B" : "red";
+      } else {
+        return d == undefined ? 0.3 : !d ? 0.3 : 2;
+      }
+    },
 
     getColor(attr, d) {
       if (attr == "nga_general_2020") {
@@ -85,6 +93,7 @@ export default {
       "gridOpacity",
       "gridChoroplethAttribute",
       "gridChoroplethOptions",
+      "oppList",
     ]),
 
     options() {
@@ -96,15 +105,18 @@ export default {
       const self = this;
       // important! need touch fillColor in computed for re-calculate when change fillColor
       //const fillColor = this.fillColor;
+      const oppList = this.oppList;
+
       const gridOpacity = this.gridOpacity / 100;
       const choroplethAttr =
         this.gridChoroplethOptions[this.gridChoroplethAttribute];
-
+      var i = -1;
       return (feature) => {
+        i += 1;
         return {
           //border
-          weight: 0.3,
-          color: "#607D8B",
+          weight: self.getOppHighlight(oppList[i], "weight"),
+          color: self.getOppHighlight(oppList[i], "color"),
           opacity: 0.8,
           // Colouring
           fillColor: self.getColor(

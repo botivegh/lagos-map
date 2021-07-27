@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state: {
     lagosGrid: [],
     stores: [],
-    overview : [],
+    overview: [],
     catchments: [],
     storeCatchment: [],
     clickedGrid: null,
@@ -16,6 +16,7 @@ export default new Vuex.Store({
     sideMenuOpen: null,
     gridSwitch: true,
     storeSwitch: true,
+    oppSwitch: false,
     catchmentSwitch: false,
     gridOpacity: 70,
     gridChoroplethOptions: [
@@ -24,6 +25,13 @@ export default new Vuex.Store({
       "light_mean_cat",
     ],
     gridChoroplethAttribute: 2,
+    sliderValues: {
+      population: [30, 5000],
+      urban: [50, 100],
+      comp: [0, 2],
+      wealth: [3, 4],
+    },
+    oppList: [],
   },
   // MUTATIONS
   mutations: {
@@ -73,6 +81,9 @@ export default new Vuex.Store({
     setStoreSwitch: (state) => {
       state.storeSwitch = !state.storeSwitch;
     },
+    setOppSwitch: (state) => {
+      state.oppSwitch = !state.oppSwitch;
+    },
     setGridOpacity: (state, newValue) => {
       state.gridOpacity = newValue;
     },
@@ -81,6 +92,55 @@ export default new Vuex.Store({
     },
     setGridChoroplethAttribute: (state, newValue) => {
       state.gridChoroplethAttribute = newValue;
+    },
+
+    // FINDING OPPORTUNITY AREA FUNCTION
+
+    findOpp: (state) => {
+      const sliderValues = state.sliderValues;
+      const cat_mapping = {
+        nan: 0,
+        "Very Low": 0,
+        Low: 1,
+        Medium: 2,
+        High: 3,
+        "Very High": 4,
+      };
+      var oppArray = [];
+      state.lagosGrid.features.forEach((element) => {
+        let check0;
+        let check1;
+        let check2;
+        let check3;
+
+        (element.properties.nga_general_2020 >= sliderValues.population[0] &&
+          element.properties.nga_general_2020 <= sliderValues.population[1]) ||
+        10000 == sliderValues.population[1]
+          ? (check0 = true)
+          : (check0 = false);
+        element.properties.urban_level >= sliderValues.urban[0] / 100 &&
+        element.properties.urban_level <= sliderValues.urban[1] / 100
+          ? (check1 = true)
+          : (check1 = false);
+
+        cat_mapping[element.properties.competition_level_cat] >=
+          sliderValues.comp[0] &&
+        cat_mapping[element.properties.competition_level_cat] <=
+          sliderValues.comp[1]
+          ? (check2 = true)
+          : (check2 = false);
+        cat_mapping[element.properties.light_mean_cat] >=
+          sliderValues.wealth[0] &&
+        cat_mapping[element.properties.light_mean_cat] <= sliderValues.wealth[1]
+          ? (check3 = true)
+          : (check3 = false);
+
+        oppArray.push(check0 && check1 && check2 & check3);
+      });
+      console.log("True");
+
+      console.log(oppArray.filter(Boolean).length);
+      state.oppList = oppArray;
     },
   },
   //ACTIONS
