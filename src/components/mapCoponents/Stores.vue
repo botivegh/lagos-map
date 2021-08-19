@@ -6,8 +6,12 @@
       :key="s.properties['Store ID']"
       :lat-lng="[s.properties.Latitude, s.properties.Longitude]"
       :radius="70"
-      color="#673AB7"
-      @click="setStore(s.properties)"
+      :color="circleColor"
+      :fillColor="circleColor"
+      @click="
+        setStore(s.properties);
+        test();
+      "
     >
       <l-tooltip class="pa-0">
         <v-card
@@ -20,14 +24,26 @@
             <v-icon dark large>mdi-store</v-icon></v-avatar
           >
           <div class="pl-2">
-            <div class="font-weight-bold d-inline-block text-no-wrap text-truncate" style="max-width: 95px;">
+            <div
+              class="font-weight-bold d-inline-block text-no-wrap text-truncate"
+              style="max-width: 95px"
+            >
               {{ s.properties["Company Name"] }}
             </div>
-            <div>{{s.properties["Floorspace"]}}m²</div>
+            <div>{{ s.properties["Floorspace"] }}m²</div>
           </div>
         </v-card>
       </l-tooltip></l-circle
     >
+    <l-circle
+      v-if="clickedStore != null"
+      :lat-lng="[clickedStore.Latitude, clickedStore.Longitude]"
+      :radius="70"
+      :color="selectedCircleColor"
+      :fillColor="selectedCircleColor"
+      :fillOpacity="0.8"
+    >
+    </l-circle>
   </div>
 </template>
 
@@ -41,13 +57,36 @@ export default {
     LCircle,
     LTooltip,
   },
-  data: () => ({}),
+  data: () => ({
+    circleColor: "#673AB7",
+    selectedCircleColor: "#ffffff",
+    displaySelected: false,
+  }),
   methods: {
     ...mapMutations(["setStore"]),
+    test() {
+      this.displaySelected = true;
+    },
   },
 
   computed: {
-    ...mapState(["stores"]),
+    ...mapState(["stores", "clickedStore"]),
+
+    // options() {
+    //   return {
+    //     onEachFeature: this.onEachFeatureFunction,
+    //   };
+    // },
+    // onEachFeatureFunction() {
+    //   return (feature, layer) => {
+    //     // IMPORTANT! so we can reach vue data object within the funtions
+    //    // var self = this;
+    //     console.log(feature)
+    //     layer.on("click", () => {
+    //       console.log(layer)
+    //     });
+    //   };
+    // },
   },
 };
 </script>

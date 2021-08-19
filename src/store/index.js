@@ -13,7 +13,7 @@ export default new Vuex.Store({
     storeCatchment: [],
     clickedGrid: null,
     clickedStore: null,
-    sideMenuOpen: null,
+    sideMenuOpen: "Overview",
     gridSwitch: true,
     storeSwitch: true,
     oppSwitch: false,
@@ -24,7 +24,7 @@ export default new Vuex.Store({
       "competition_level_cat",
       "light_mean_cat",
     ],
-    gridChoroplethAttribute: 2,
+    gridChoroplethAttribute: 0,
     sliderValues: {
       population: [30, 5000],
       urban: [50, 100],
@@ -147,28 +147,28 @@ export default new Vuex.Store({
   actions: {
     loadData({ commit }) {
       axios
-        .get("http://localhost:8080/lagos_grid.geojson")
+        .get("./lagos_grid.geojson")
         .then((result) => {
           commit("setGridData", result.data);
         })
         .catch((error) => console.log(error));
 
       axios
-        .get("http://localhost:8080/lagos_stores.geojson")
+        .get("./lagos_stores.geojson")
         .then((result) => {
           commit("setStoreData", result.data);
         })
         .catch((error) => console.log(error));
 
       axios
-        .get("http://localhost:8080/store_catchment.geojson")
+        .get("./store_catchment.geojson")
         .then((result) => {
           commit("setCatchmentData", result.data);
         })
         .catch((error) => console.log(error));
 
       axios
-        .get("http://localhost:8080/lagos_overview.json")
+        .get("./lagos_overview.json")
         .then((result) => {
           commit("setOverviewData", result.data);
         })

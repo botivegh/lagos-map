@@ -47,7 +47,7 @@ export default {
     zoom: 9,
     center: [6.5138, 3.3312],
 
-    url: "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png",
+    url: "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=4d6954a0-fda6-4a75-9396-d356517d82cc",
   }),
 
   methods: {

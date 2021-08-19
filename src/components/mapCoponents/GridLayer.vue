@@ -23,6 +23,7 @@ export default {
     fillColor: "#e82e3f",
     activeFillColor: "#ffffff",
     lastClickedLayer: null,
+    lastHoverFeature: [],
   }),
 
   methods: {
@@ -143,6 +144,9 @@ export default {
         // );
         //// Mouse Over - Leave: https://jsfiddle.net/3fcxzm9u/15/
         layer.on("mouseover", () => {
+          self.lastHoverFeature[0] = layer.options.color;
+          self.lastHoverFeature[1] = layer.options.weight;
+
           layer.setStyle({
             color: "#ffffff",
             weight: 3,
@@ -150,13 +154,15 @@ export default {
         });
         layer.on("mouseout", () => {
           layer.setStyle({
-            color: "#ECEFF1",
-            weight: 0.3,
+            color: self.lastHoverFeature[0],
+            weight: self.lastHoverFeature[1],
           });
         });
 
         // Bind Click Event
         layer.on("click", function (e) {
+          const choroplethAttr =
+            self.gridChoroplethOptions[self.gridChoroplethAttribute];
           // Set selected grid
 
           self.$store.commit("setGrid", e.target.feature);
@@ -171,7 +177,14 @@ export default {
               layer != self.lastClickedLayer &&
               self.lastClickedLayer != null
             ) {
-              self.$refs.jsonLayer.mapObject.resetStyle(self.lastClickedLayer);
+              self.lastClickedLayer.setStyle({
+                fillOpacity: self.gridOpacity / 100,
+                fillColor: self.getColor(
+                  choroplethAttr,
+                   self.lastClickedLayer.feature.properties[choroplethAttr]
+                ),
+              });
+              //self.$refs.jsonLayer.mapObject.resetStyle(self.lastClickedLayer);
             }
           } finally {
             self.lastClickedLayer = layer;
