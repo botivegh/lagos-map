@@ -1,5 +1,7 @@
-# lagos-retail
-
+# Modern Grocery Retail Analytics in Data-Poor Environment Using Alternative, Remote Sensing Data Sources, Case Study of Lagos
+---
+## Source Code for the Interactive Mapping Tool
+---
 ## Project setup
 ```
 npm install
