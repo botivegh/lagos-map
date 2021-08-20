@@ -1,7 +1,8 @@
 # Modern Grocery Retail Analytics in Data-Poor Environment Using Alternative, Remote Sensing Data Sources, Case Study of Lagos
 ---
-## Source Code for the Interactive Mapping Tool
+## Source Code for the Interactive Mapping ToolCancel changes
 App link: http://lagos-retail-map.s3-website-eu-west-1.amazonaws.com/
+
 Data Processing Repo Link: https://github.com/botivegh/lagos-map-data/ 
 #### Initial Load:
 ![Initial View](https://github.com/botivegh/lagos-map-data/blob/9b7afb8d40168607c074ce15c00fffa9204e672c/figures/AppInitialVew.png)
