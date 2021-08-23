@@ -1,4 +1,4 @@
-# Modern Grocery Retail Analytics in Data-Poor Environment Using Alternative, Remote Sensing Data Sources, Case Study of Lagos
+# Modern Grocery Retail Analytics in a Data-Poor Environment Using Alternative, Remote Sensing Data Sources: A Case Study of Lagos
 ---
 ## Source Code for the Interactive Mapping ToolCancel changes
 App link: http://lagos-retail-map.s3-website-eu-west-1.amazonaws.com/

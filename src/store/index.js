@@ -114,8 +114,7 @@ export default new Vuex.Store({
         let check3;
 
         (element.properties.nga_general_2020 >= sliderValues.population[0] &&
-          element.properties.nga_general_2020 <= sliderValues.population[1]) ||
-        10000 == sliderValues.population[1]
+          element.properties.nga_general_2020 <= sliderValues.population[1])
           ? (check0 = true)
           : (check0 = false);
         element.properties.urban_level >= sliderValues.urban[0] / 100 &&
